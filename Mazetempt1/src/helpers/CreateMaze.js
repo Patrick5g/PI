@@ -11,7 +11,7 @@ const RIGHT = 'R';
 const LEFT = 'L';
 
 const directionX = {
-  'T': 0, 
+  'T': 0,
   'B': 0,
   'R': 1,
   'L': -1
@@ -25,7 +25,7 @@ const directionY = {
 };
 
 const op = {
-  'T': BOTTOM, 
+  'T': BOTTOM,
   'B': TOP,
   'R': LEFT,
   'L': RIGHT
@@ -33,8 +33,8 @@ const op = {
 
 const CreateMaze = (gridX, gridY) => {
 
-  this.width = gridX; 
-  this.height = gridY; 
+  this.width = gridX;
+  this.height = gridY;
 
   this.blockWidth = Math.floor(width / this.width);
   this.blockHeight = Math.floor(height / this.height);
@@ -69,7 +69,7 @@ const CreateMaze = (gridX, gridY) => {
     if (newXPoint < 0 || newXPoint >= this.width) {
       return;
     }
-    
+
     if (newYPoint < 0 || newYPoint >= this.height) {
       return;
     }
@@ -80,7 +80,7 @@ const CreateMaze = (gridX, gridY) => {
   generateWall = (x, y) => {
     const walls = Matter.Composite.create({ isStatic: true });
     const gridPoint = this.grid[y][x];
-    const opts = { 
+    const opts = {
       isStatic: true,
       label: 'wall'
     };
@@ -103,35 +103,35 @@ const CreateMaze = (gridX, gridY) => {
     if (gridPoint !== RIGHT && rightPoint !== this.getOpposite(RIGHT)) {
       Matter.Composite.add(walls, Matter.Bodies.rectangle(this.blockWidth, this.blockHeight / 2, wallThickness, this.blockHeight + wallThickness, opts));
     }
-    
+
     const translate = Matter.Vector.create(x * this.blockWidth, y * this.blockHeight);
     Matter.Composite.translate(walls, translate);
-    
+
     return walls;
   }
 
 
   carvePathFrom = (x, y, grid) => {
-   
+
     const directions = [TOP, BOTTOM, RIGHT, LEFT]
-      .sort(f => 0.5 - GetRandomNumber()); 
+      .sort(f => 0.5 - GetRandomNumber());
 
     directions.forEach(dir => {
       const nX = x + this.getDirectionX(dir);
       const nY = y + this.getDirectionY(dir);
       const xNeighborOK = nX >= 0 && nX < this.width;
       const yNeighborOK = nY >= 0 && nY < this.height;
-      
+
 
       if (xNeighborOK && yNeighborOK && grid[nY][nX] == undefined) {
         grid[y][x] = grid[y][x] || dir;
         grid[nY][nX] = grid[nY][nX] || this.getOpposite(dir);
         this.carvePathFrom(nX, nY, grid);
       }
-    }); 
+    });
   }
 
-  
+
   this.carvePathFrom(0, 0, this.grid);
 
   for (var i = 0; i < this.grid.length; i++) {
@@ -142,8 +142,8 @@ const CreateMaze = (gridX, gridY) => {
 
 
   return this.matter;
- 
-  
+
+
 }
 
 export default CreateMaze;

@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { View,  Dimensions } from "react-native";
+import React from "react";
+import { Dimensions, View } from "react-native";
 
 const { height, width } = Dimensions.get('window');
 
@@ -9,10 +9,10 @@ const BORDER_WIDTH = Math.trunc(BODY_DIAMETER * 0.1);
 const Circle = ({ body, bgColor, borderColor }) => {
   const { position } = body;
   const radius = BODY_DIAMETER / 2;
-  
+
   const x = position.x - radius;
   const y = position.y - radius;
-  return <View style={[styles.head, { left: x, top: y, backgroundColor: bgColor, borderColor  }]} />;
+  return <View style={[styles.head, { left: x, top: y, backgroundColor: bgColor, borderColor }]} />;
 }
 
 export default Circle;
